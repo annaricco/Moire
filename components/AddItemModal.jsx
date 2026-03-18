@@ -75,34 +75,35 @@ export default function AddItemModal({ isOpen, onClose, onSave, editItem = null 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50">
+      <div className="bg-stone-50 w-full max-w-md max-h-[90vh] overflow-y-auto">
+
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-100">
-          <h2 className="text-base font-semibold">{editItem ? 'Edit Item' : 'Add Item'}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        <div className="flex items-center justify-between px-8 py-6 border-b border-stone-200">
+          <h2
+            style={{ fontFamily: "'EB Garamond', serif" }}
+            className="text-xl font-normal tracking-wide text-stone-900"
+          >
+            {editItem ? 'Edit Item' : 'Add Item'}
+          </h2>
+          <button onClick={onClose} className="text-stone-300 hover:text-stone-600 transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
 
-        <div className="p-5 space-y-4">
+        <div className="px-8 py-6 space-y-5">
           {/* Image upload */}
           <div
             onClick={() => fileRef.current.click()}
-            className="w-full aspect-[4/3] rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center cursor-pointer hover:border-gray-300 transition-colors overflow-hidden bg-gray-50 relative"
+            className="w-full aspect-[4/3] border border-stone-200 flex items-center justify-center cursor-pointer hover:border-stone-400 transition-colors overflow-hidden bg-stone-100 relative"
           >
             {imagePreview ? (
               <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
             ) : (
               <div className="text-center">
-                <div className="text-gray-300 mb-1">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto">
-                    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
-                  </svg>
-                </div>
-                <p className="text-xs text-gray-400">Click to upload photo</p>
+                <p className="text-[9px] tracking-widest uppercase text-stone-400">Click to upload photo</p>
               </div>
             )}
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImage} />
@@ -110,40 +111,40 @@ export default function AddItemModal({ isOpen, onClose, onSave, editItem = null 
 
           {/* Name */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Name *</label>
+            <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">Name *</label>
             <input
               name="name" value={form.name} onChange={handleChange}
               placeholder="Oversized Denim Jacket"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+              className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 placeholder:text-stone-300 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
           {/* Brand + Price */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Brand</label>
+              <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">Brand</label>
               <input
                 name="brand" value={form.brand} onChange={handleChange}
                 placeholder="Zara"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+                className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 placeholder:text-stone-300 focus:outline-none focus:border-stone-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Price</label>
+              <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">Price</label>
               <input
                 name="price" value={form.price} onChange={handleChange}
                 type="number" step="0.01" placeholder="89.99"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+                className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 placeholder:text-stone-300 focus:outline-none focus:border-stone-500 transition-colors"
               />
             </div>
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Category *</label>
+            <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">Category *</label>
             <select
               name="category" value={form.category} onChange={handleChange}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
+              className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 focus:outline-none focus:border-stone-500 transition-colors"
             >
               {CATEGORIES.map((c) => (
                 <option key={c.value} value={c.value}>{c.label}</option>
@@ -153,50 +154,52 @@ export default function AddItemModal({ isOpen, onClose, onSave, editItem = null 
 
           {/* Purchase date */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Purchase Date</label>
+            <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">Purchase Date</label>
             <input
               name="purchaseDate" value={form.purchaseDate} onChange={handleChange}
               type="date"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+              className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
           {/* Tags */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Tags <span className="text-gray-300">(comma separated)</span></label>
+            <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">
+              Tags <span className="text-stone-300 normal-case tracking-normal">(comma separated)</span>
+            </label>
             <input
               name="tags" value={form.tags} onChange={handleChange}
               placeholder="casual, summer, work"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+              className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 placeholder:text-stone-300 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
-          {error && <p className="text-red-500 text-xs">{error}</p>}
-
           {/* Matching Set */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              Matching Set <span className="text-gray-300">(optional — e.g. "Floral Set")</span>
+            <label className="block text-[9px] tracking-widest uppercase text-stone-400 mb-2">
+              Matching Set <span className="text-stone-300 normal-case tracking-normal">(optional)</span>
             </label>
             <input
               name="matchingSet" value={form.matchingSet} onChange={handleChange}
               placeholder="Floral Set"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+              className="w-full border-b border-stone-200 bg-transparent pb-2 text-sm text-stone-900 placeholder:text-stone-300 focus:outline-none focus:border-stone-500 transition-colors"
             />
           </div>
 
+          {error && <p className="text-red-400 text-xs tracking-wide">{error}</p>}
+
           {/* Actions */}
-          <div className="flex gap-2 pt-1">
+          <div className="flex gap-3 pt-2">
             <button
               onClick={onClose}
-              className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              className="flex-1 py-3 border border-stone-200 text-[9px] tracking-widest uppercase text-stone-500 hover:border-stone-400 transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 py-2.5 bg-black text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+              className="flex-1 py-3 bg-stone-900 text-[9px] tracking-widest uppercase text-stone-50 hover:bg-stone-700 transition-colors disabled:opacity-50"
             >
               {loading ? 'Saving...' : editItem ? 'Save Changes' : 'Add to Closet'}
             </button>

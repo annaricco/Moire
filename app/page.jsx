@@ -4,16 +4,18 @@ import { useState, useEffect, useCallback } from 'react';
 import FilterBar from '@/components/FilterBar';
 import ClosetGrid from '@/components/ClosetGrid';
 import AddItemModal from '@/components/AddItemModal';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import ItemDetailModal from '@/components/ItemDetailModal';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function Home() {
-  const [viewItem, setViewItem] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [editItem, setEditItem] = useState(null);
+  const [viewItem, setViewItem] = useState(null);
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('newest');
 
   const fetchItems = useCallback(async (category = activeCategory) => {
     setLoading(true);
@@ -40,6 +42,27 @@ export default function Home() {
     fetchItems(activeCategory);
   }, [activeCategory]);
 
+  // Filter by search
+  const filtered = items.filter((item) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      item.name?.toLowerCase().includes(q) ||
+      item.brand?.toLowerCase().includes(q) ||
+      item.tags?.some((t) => t.toLowerCase().includes(q))
+    );
+  });
+
+  // Sort
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === 'newest') return new Date(b.createdAt) - new Date(a.createdAt);
+    if (sort === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
+    if (sort === 'price-high') return (b.price || 0) - (a.price || 0);
+    if (sort === 'price-low') return (a.price || 0) - (b.price || 0);
+    if (sort === 'brand') return (a.brand || '').localeCompare(b.brand || '');
+    return 0;
+  });
+
   const handleSave = (savedItem, isEdit) => {
     if (isEdit) {
       setItems((prev) => prev.map((i) => (i._id === savedItem._id ? savedItem : i)));
@@ -63,11 +86,6 @@ export default function Home() {
     }
   };
 
-  const handleOpenAdd = () => {
-    setEditItem(null);
-    setModalOpen(true);
-  };
-
   return (
     <main className="min-h-screen bg-stone-50">
       {/* Header */}
@@ -81,16 +99,38 @@ export default function Home() {
           </h1>
           {!loading && (
             <span className="text-[10px] tracking-widest uppercase text-stone-400">
-              {items.length} {items.length === 1 ? 'piece' : 'pieces'}
+              {sorted.length} {sorted.length === 1 ? 'piece' : 'pieces'}
             </span>
           )}
         </div>
-        <button
-          onClick={handleOpenAdd}
-          className="text-[10px] tracking-widest uppercase bg-stone-900 text-stone-50 px-5 py-2.5 hover:bg-stone-700 transition-colors"
-        >
-          + Add Item
-        </button>
+
+        {/* Search + Sort + Add */}
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search..."
+            className="text-xs bg-transparent border-b border-stone-200 pb-1 w-36 placeholder:text-stone-300 text-stone-700 focus:outline-none focus:border-stone-500 transition-colors"
+          />
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="text-[9px] tracking-widest uppercase bg-transparent text-stone-400 focus:outline-none cursor-pointer hover:text-stone-700 transition-colors"
+          >
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="price-high">Price ↓</option>
+            <option value="price-low">Price ↑</option>
+            <option value="brand">Brand</option>
+          </select>
+          <button
+            onClick={() => { setEditItem(null); setModalOpen(true); }}
+            className="text-[10px] tracking-widest uppercase bg-stone-900 text-stone-50 px-5 py-2.5 hover:bg-stone-700 transition-colors"
+          >
+            + Add Item
+          </button>
+        </div>
       </header>
 
       {/* Filter Nav */}
@@ -101,8 +141,8 @@ export default function Home() {
         {loading ? (
           <LoadingSpinner />
         ) : (
-         <ClosetGrid
-            items={items}
+          <ClosetGrid
+            items={sorted}
             onEdit={handleEdit}
             onDelete={handleDelete}
             onView={setViewItem}
@@ -117,6 +157,7 @@ export default function Home() {
         onSave={handleSave}
         editItem={editItem}
       />
+
       <ItemDetailModal
         item={viewItem}
         onClose={() => setViewItem(null)}
