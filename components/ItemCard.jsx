@@ -2,11 +2,14 @@
 
 import Image from 'next/image';
 
-export default function ItemCard({ item, onEdit, onDelete }) {
+export default function ItemCard({ item, onEdit, onDelete, onView }) {
   return (
     <div className="group relative bg-stone-100">
       {/* Image */}
-      <div className="aspect-[3/4] bg-stone-200 relative overflow-hidden">
+      <div
+        className="aspect-[3/4] bg-stone-200 relative overflow-hidden cursor-pointer"
+        onClick={() => onView(item)}
+      >
         {item.imageUrl ? (
           <Image
             src={item.imageUrl}
@@ -28,13 +31,13 @@ export default function ItemCard({ item, onEdit, onDelete }) {
         {/* Hover actions */}
         <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center gap-2 pb-4">
           <button
-            onClick={() => onEdit(item)}
+            onClick={(e) => { e.stopPropagation(); onEdit(item); }}
             className="text-[9px] tracking-widest uppercase bg-white text-stone-900 px-4 py-2 hover:bg-stone-100 transition-colors"
           >
             Edit
           </button>
           <button
-            onClick={() => onDelete(item._id)}
+            onClick={(e) => { e.stopPropagation(); onDelete(item._id); }}
             className="text-[9px] tracking-widest uppercase bg-stone-900 text-white px-4 py-2 hover:bg-stone-700 transition-colors"
           >
             Remove

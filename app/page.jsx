@@ -5,8 +5,10 @@ import FilterBar from '@/components/FilterBar';
 import ClosetGrid from '@/components/ClosetGrid';
 import AddItemModal from '@/components/AddItemModal';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ItemDetailModal from '@/components/ItemDetailModal';
 
 export default function Home() {
+  const [viewItem, setViewItem] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -99,10 +101,11 @@ export default function Home() {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <ClosetGrid
+         <ClosetGrid
             items={items}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={setViewItem}
             activeCategory={activeCategory}
           />
         )}
@@ -113,6 +116,12 @@ export default function Home() {
         onClose={() => { setModalOpen(false); setEditItem(null); }}
         onSave={handleSave}
         editItem={editItem}
+      />
+      <ItemDetailModal
+        item={viewItem}
+        onClose={() => setViewItem(null)}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
     </main>
   );

@@ -14,7 +14,7 @@ function groupBySets(items) {
   return sets;
 }
 
-export default function ClosetGrid({ items, onEdit, onDelete, activeCategory }) {
+export default function ClosetGrid({ items, onEdit, onDelete, activeCategory, onView }) {
   if (!items || !Array.isArray(items) || items.length === 0) {
     return <EmptyState category={activeCategory} />;
   }
@@ -47,7 +47,7 @@ export default function ClosetGrid({ items, onEdit, onDelete, activeCategory }) 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1">
       {items.map((item) => (
-        <ItemCard key={item._id} item={item} onEdit={onEdit} onDelete={onDelete} />
+        <ItemCard key={item._id} item={item} onEdit={onEdit} onDelete={onDelete} onView={onView} />
       ))}
     </div>
   );
