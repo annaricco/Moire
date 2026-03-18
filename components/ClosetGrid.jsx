@@ -4,7 +4,7 @@ import ItemCard from './ItemCard';
 import EmptyState from './EmptyState';
 
 export default function ClosetGrid({ items, onEdit, onDelete, activeCategory }) {
-  if (items.length === 0) {
+  if (!items || !Array.isArray(items) || items.length === 0) {
     return <EmptyState category={activeCategory} />;
   }
 
