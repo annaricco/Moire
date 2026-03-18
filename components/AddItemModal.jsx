@@ -3,10 +3,15 @@
 import { useState, useRef } from 'react';
 
 const CATEGORIES = [
+  { value: 'dress', label: 'Dress' },
   { value: 'top', label: 'Top' },
-  { value: 'bottom', label: 'Bottom' },
+  { value: 'sweater', label: 'Sweater' },
+  { value: 'jeans', label: 'Jeans' },
+  { value: 'pants', label: 'Pants' },
+  { value: 'skirt', label: 'Skirt' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'jacket', label: 'Jacket & Coat' },
   { value: 'shoes', label: 'Shoes' },
-  { value: 'outerwear', label: 'Outerwear' },
   { value: 'accessory', label: 'Accessory' },
 ];
 
@@ -17,6 +22,7 @@ const EMPTY_FORM = {
   purchaseDate: '',
   category: 'top',
   tags: '',
+  matchingSet: '',
   sourceUrl: '',
 };
 
@@ -166,6 +172,18 @@ export default function AddItemModal({ isOpen, onClose, onSave, editItem = null 
           </div>
 
           {error && <p className="text-red-500 text-xs">{error}</p>}
+
+          {/* Matching Set */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Matching Set <span className="text-gray-300">(optional — e.g. "Floral Set")</span>
+            </label>
+            <input
+              name="matchingSet" value={form.matchingSet} onChange={handleChange}
+              placeholder="Floral Set"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+            />
+          </div>
 
           {/* Actions */}
           <div className="flex gap-2 pt-1">

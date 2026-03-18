@@ -1,5 +1,6 @@
 const MESSAGES = {
   all: "Your closet is empty. Add your first item to get started.",
+  sets: "No matching sets yet. Tag items with the same set name to group them here.",
   top: "No tops yet. Add one!",
   bottom: "No bottoms in your closet yet.",
   shoes: "No shoes added yet.",

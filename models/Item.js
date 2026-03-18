@@ -27,12 +27,16 @@ const ItemSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['top', 'bottom', 'shoes', 'outerwear', 'accessory'],
+      enum: ['dress', 'top', 'sweater', 'jeans', 'pants', 'skirt', 'shorts', 'jacket', 'shoes', 'accessory'],
       required: [true, 'Category is required'],
     },
     tags: {
       type: [String],
       default: [],
+    },
+    matchingSet: {
+      type: String,
+      default: '',
     },
     source: {
       type: String,
